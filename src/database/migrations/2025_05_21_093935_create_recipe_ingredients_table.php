@@ -9,11 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('recipe_ingredients', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('recipe_id');
+            $table->unsignedBigInteger('ingredient_id');
+            $table->string('quantity');
+
+            $table->primary(['recipe_id', 'ingredient_id']);
+
+            $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
+            $table->foreign('ingredient_id')->references('id')->on('ingredients')->onDelete('cascade');
         });
     }
 
