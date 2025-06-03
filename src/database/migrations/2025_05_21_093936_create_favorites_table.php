@@ -9,14 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('favorites', function (Blueprint $table) {
+            $table->id(); // これが主キーになる
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('recipe_id');
 
-            $table->primary(['user_id', 'recipe_id']);
-
+            $table->unique(['user_id', 'recipe_id']); // 重複防止
+            $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
         });
